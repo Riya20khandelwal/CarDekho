@@ -8,6 +8,8 @@ from .api_file.serializers import CarSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
+from rest_framework import status
+
 # Create your views here.
 # def car_list_view(request):
 #     cars = Carlist.objects.all()
@@ -28,7 +30,7 @@ from rest_framework.decorators import api_view
 #     }
 #     return JsonResponse(data)
 
-@api_view(['GET', 'POST'])
+@api_view(['GET','POST'])
 def car_list_view(request):
     if request.method == 'GET':
         car = Carlist.objects.all()
@@ -44,10 +46,13 @@ def car_list_view(request):
             return Response(serializer.errors)
 
 
-@api_view(['GET', 'PUT'])
+@api_view(['GET','PUT','DELETE'])
 def car_detail_view(request, pk):
     if request.method == 'GET':
-        car = Carlist.objects.get(pk=pk)
+        try:
+            car = Carlist.objects.get(pk=pk)
+        except:
+            return Response({'Error':'Car not found'}, status=status.HTTP_404_NOT_FOUND)
         serializer = CarSerializer(car)
         return Response(serializer.data)
     
@@ -58,4 +63,9 @@ def car_detail_view(request, pk):
             serializer.save()
             return Response(serializer.data)
         else:
-            return Response(serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+    if request.method == 'DELETE':
+        car = Carlist.objects.get(pk=pk)
+        car.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
