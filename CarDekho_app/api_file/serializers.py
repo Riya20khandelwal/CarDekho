@@ -46,19 +46,19 @@
 from rest_framework import serializers
 from ..models import Carlist
 
-#validators
-def alphanumeric(value):
-    if not str(value).isalnum():
-        raise serializers.ValidationError("Only alphanumeric characters are allowed.")
-    return value
-
 
 class CarSerializer(serializers.ModelSerializer):
+    discounted_price = serializers.SerializerMethodField()
     class Meta:
         model = Carlist
         fields = "__all__"
         # fields = ['name', 'id', 'description']
         # exclude = ["name","id"]
+
+    def get_discounted_price(self, object):
+        if object.price is not None:
+            return object.price - 5000
+        return None  # or 0, or some default value, depending on your needs
     
     # Field-level Validation
     def validate_price(self, value):
