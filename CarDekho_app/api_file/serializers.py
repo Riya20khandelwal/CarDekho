@@ -44,11 +44,17 @@
 
 # ModelSerializer
 from rest_framework import serializers
-from ..models import Carlist, Showroomlist
+from ..models import Carlist, Showroomlist, Review
 
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = '__all__'
 
 class CarSerializer(serializers.ModelSerializer):
     discounted_price = serializers.SerializerMethodField()
+    Reviews = ReviewSerializer(many=True, read_only=True)
     class Meta:
         model = Carlist
         fields = "__all__"
