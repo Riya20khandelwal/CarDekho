@@ -69,3 +69,4 @@ def car_detail_view(request, pk):
         car = Carlist.objects.get(pk=pk)
         car.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
