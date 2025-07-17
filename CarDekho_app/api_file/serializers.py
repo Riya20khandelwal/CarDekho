@@ -47,12 +47,6 @@ from rest_framework import serializers
 from ..models import Carlist, Showroomlist
 
 
-class ShowroomSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Showroomlist
-        fields = '__all__'
-
-
 class CarSerializer(serializers.ModelSerializer):
     discounted_price = serializers.SerializerMethodField()
     class Meta:
@@ -77,3 +71,20 @@ class CarSerializer(serializers.ModelSerializer):
         if data['name'] == data['description']:
             raise serializers.ValidationError("Name and Description must be different.")
         return data
+
+class ShowroomSerializer(serializers.ModelSerializer):
+    # Showrooms = CarSerializer(many=True, read_only=True)
+
+    # Showrooms = serializers.StringRelatedField(many=True)
+
+    # Showrooms = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+
+    Showrooms = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='car_detail'
+    )
+
+    class Meta:
+        model = Showroomlist
+        fields = '__all__'

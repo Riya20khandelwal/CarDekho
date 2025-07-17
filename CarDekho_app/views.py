@@ -79,7 +79,7 @@ class Showroom_View(APIView):
 
     def get(self, request):
         showroom = Showroomlist.objects.all()
-        serializer = ShowroomSerializer(showroom, many=True)
+        serializer = ShowroomSerializer(showroom, many=True, context={'request':request})
         return Response(serializer.data)
     
     def post(self, request):
