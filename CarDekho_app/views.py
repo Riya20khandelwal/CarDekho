@@ -16,7 +16,7 @@ from rest_framework import generics
 
 # Authentication and Permission
 from rest_framework.authentication import BasicAuthentication, SessionAuthentication
-from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser, DjangoModelPermissions
 
 # Create your views here.
 # def car_list_view(request):
@@ -137,6 +137,10 @@ class ReviewList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.Generi
 
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+
+    # Model Authentication
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [DjangoModelPermissions]
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
