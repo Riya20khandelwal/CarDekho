@@ -11,12 +11,16 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.views import APIView
 
-from rest_framework import mixins
+# from rest_framework import mixins
 from rest_framework import generics
 
 # Authentication and Permission
 from rest_framework.authentication import BasicAuthentication, SessionAuthentication
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser, DjangoModelPermissions
+
+# Viewsets
+from rest_framework import viewsets
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 # def car_list_view(request):
@@ -165,3 +169,25 @@ class ReviewList(generics.ListCreateAPIView):
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+
+
+# Viewsets API
+class Showroom_Viewset(viewsets.ViewSet):
+    def list(self, request):
+        quesryset = Showroomlist.objects.all()
+        serializer = ShowroomSerializer(quesryset, many=True)
+        return Response(serializer.data)
+    
+    def retrieve(self, request, pk=None):
+        quesryset = Showroomlist.objects.all()
+        showroom = get_object_or_404(quesryset, pk=pk)
+        serializer = ShowroomSerializer(showroom)
+        return Response(serializer.data)
+    
+    def create(self, request):
+        serializer = ShowroomSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
