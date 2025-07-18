@@ -172,22 +172,28 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 # Viewsets API
-class Showroom_Viewset(viewsets.ViewSet):
-    def list(self, request):
-        quesryset = Showroomlist.objects.all()
-        serializer = ShowroomSerializer(quesryset, many=True)
-        return Response(serializer.data)
+# class Showroom_Viewset(viewsets.ViewSet):
+#     def list(self, request):
+#         quesryset = Showroomlist.objects.all()
+#         serializer = ShowroomSerializer(quesryset, many=True)
+#         return Response(serializer.data)
     
-    def retrieve(self, request, pk=None):
-        quesryset = Showroomlist.objects.all()
-        showroom = get_object_or_404(quesryset, pk=pk)
-        serializer = ShowroomSerializer(showroom)
-        return Response(serializer.data)
+#     def retrieve(self, request, pk=None):
+#         quesryset = Showroomlist.objects.all()
+#         showroom = get_object_or_404(quesryset, pk=pk)
+#         serializer = ShowroomSerializer(showroom)
+#         return Response(serializer.data)
     
-    def create(self, request):
-        serializer = ShowroomSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#     def create(self, request):
+#         serializer = ShowroomSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         else:
+#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# Model View Set
+class Showroom_Viewset(viewsets.ModelViewSet):
+    queryset = Showroomlist.objects.all()
+    serializer_class = ShowroomSerializer
