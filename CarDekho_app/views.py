@@ -1,15 +1,18 @@
 from django.shortcuts import render
-from .models import Carlist, Showroomlist
+from .models import Carlist, Showroomlist, Review
 from django.http import JsonResponse
 # from django.http import HttpResponse
 # import json
 
-from .api_file.serializers import CarSerializer, ShowroomSerializer
+from .api_file.serializers import CarSerializer, ShowroomSerializer, ReviewSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from rest_framework import status
 from rest_framework.views import APIView
+
+from rest_framework import mixins
+from rest_framework import generics
 
 # Create your views here.
 # def car_list_view(request):
@@ -113,3 +116,15 @@ class Showroom_Details(APIView):
         showroom = Showroomlist.objects.get(pk=pk)
         showroom.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ReviewList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+    
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
