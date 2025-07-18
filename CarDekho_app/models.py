@@ -37,4 +37,4 @@ class Review(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return "the rating of "+ self.car.name + ":--- " + str(self.rating)
+        return "the rating of "+ self.car.name + " :--- " + str(self.rating)
