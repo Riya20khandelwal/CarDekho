@@ -13,6 +13,9 @@ urlpatterns = [
     
     path('', include(router.urls)),
 
-    path('review', views.ReviewList.as_view(), name='review_list'),
-    path('review/<int:pk>', views.ReviewDetail.as_view(), name='review_detail'),
+    # path('review', views.ReviewList.as_view(), name='review_list'),
+    # path('review/<int:pk>', views.ReviewDetail.as_view(), name='review_detail'),
+    path('showroom/<int:pk>/review-create', views.ReviewCreate.as_view(), name='reviw_create'),
+    path('showroom/<int:pk>/review', views.ReviewList.as_view(), name='reviw_list'),
+    path('showroom/review/<int:pk>', views.ReviewDetail.as_view(), name='reviw_detail'),
 ]

@@ -161,10 +161,23 @@ class Showroom_Details(APIView):
 
 
 # Concrete View Class
-class ReviewList(generics.ListCreateAPIView):
 
-    queryset = Review.objects.all()
+class ReviewCreate(generics.CreateAPIView):
     serializer_class = ReviewSerializer
+
+    def perform_create(self, serializer):
+        pk = self.kwargs['pk']
+        cars = Carlist.objects.get(pk=pk)
+        serializer.save(car=cars)
+        # return Response(serializer.data)
+
+
+class ReviewList(generics.ListAPIView):
+    # queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+    def get_queryset(self):
+        pk=self.kwargs['pk']
+        return Review.objects.filter(car=pk)
 
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()

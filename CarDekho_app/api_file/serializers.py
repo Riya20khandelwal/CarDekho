@@ -50,7 +50,8 @@ from ..models import Carlist, Showroomlist, Review
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
-        fields = '__all__'
+        # fields = '__all__'
+        exclude = ('car',)
 
 class CarSerializer(serializers.ModelSerializer):
     discounted_price = serializers.SerializerMethodField()
@@ -79,9 +80,9 @@ class CarSerializer(serializers.ModelSerializer):
         return data
 
 class ShowroomSerializer(serializers.ModelSerializer):
-    # Showrooms = CarSerializer(many=True, read_only=True)
+    Showrooms = CarSerializer(many=True, read_only=True)
 
-    Showrooms = serializers.StringRelatedField(many=True)
+    # Showrooms = serializers.StringRelatedField(many=True)
 
     # Showrooms = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
