@@ -23,6 +23,9 @@ from rest_framework import viewsets
 from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import ValidationError
 
+# Custom permission
+from .api_file.permissions import AdminOrReadOnlyPermission, ReviewUserorReadonlypermission
+
 # Create your views here.
 # def car_list_view(request):
 #     cars = Carlist.objects.all()
@@ -189,6 +192,8 @@ class ReviewList(generics.ListAPIView):
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    permission_classes = [ReviewUserorReadonlypermission]
+
 
 
 # Viewsets API
