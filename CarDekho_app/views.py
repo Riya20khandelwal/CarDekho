@@ -21,6 +21,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser, D
 # Viewsets
 from rest_framework import viewsets
 from django.shortcuts import get_object_or_404
+from rest_framework.exceptions import ValidationError
 
 # Create your views here.
 # def car_list_view(request):
@@ -165,11 +166,17 @@ class Showroom_Details(APIView):
 class ReviewCreate(generics.CreateAPIView):
     serializer_class = ReviewSerializer
 
+    def get_queryset(self):
+        return Review.objects.all()
+
     def perform_create(self, serializer):
         pk = self.kwargs['pk']
         cars = Carlist.objects.get(pk=pk)
-        serializer.save(car=cars)
-        # return Response(serializer.data)
+        useredit = self.request.user
+        Review_queryset = Review.objects.filter(car=cars, apiuser=useredit)
+        if Review_queryset.exists():
+            raise ValidationError("You have already reviewed this car")
+        serializer.save(car=cars,apiuser=useredit)
 
 
 class ReviewList(generics.ListAPIView):
