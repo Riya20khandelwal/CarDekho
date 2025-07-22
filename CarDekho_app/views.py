@@ -15,7 +15,7 @@ from rest_framework.views import APIView
 from rest_framework import generics
 
 # Authentication and Permission
-from rest_framework.authentication import BasicAuthentication, SessionAuthentication
+from rest_framework.authentication import BasicAuthentication, SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser, DjangoModelPermissions
 
 # Viewsets
@@ -185,6 +185,8 @@ class ReviewCreate(generics.CreateAPIView):
 class ReviewList(generics.ListAPIView):
     # queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [AdminOrReadOnlyPermission]
     def get_queryset(self):
         pk=self.kwargs['pk']
         return Review.objects.filter(car=pk)
@@ -192,6 +194,7 @@ class ReviewList(generics.ListAPIView):
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    authentication_classes = [TokenAuthentication]
     permission_classes = [ReviewUserorReadonlypermission]
 
 
