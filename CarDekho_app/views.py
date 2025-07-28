@@ -18,6 +18,9 @@ from rest_framework import generics
 from rest_framework.authentication import BasicAuthentication, SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser, DjangoModelPermissions
 
+# JWT Authentication
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
 # Viewsets
 from rest_framework import viewsets
 from django.shortcuts import get_object_or_404
@@ -185,8 +188,10 @@ class ReviewCreate(generics.CreateAPIView):
 class ReviewList(generics.ListAPIView):
     # queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [AdminOrReadOnlyPermission]
+    # authentication_classes = [TokenAuthentication]
+    authentication_classes = [JWTAuthentication]
+    # permission_classes = [AdminOrReadOnlyPermission]
+    permission_classes = [IsAuthenticated,]
     def get_queryset(self):
         pk=self.kwargs['pk']
         return Review.objects.filter(car=pk)
