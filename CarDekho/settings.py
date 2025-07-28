@@ -154,18 +154,20 @@ REST_FRAMEWORK = {
 
     # Throttling
     # 'DEFAULT_THROTTLE_CLASSES': [
-    #     'rest_framework.throttling.AnonRateThrottle',
-    #     'rest_framework.throttling.UserRateThrottle'
+    #     # 'rest_framework.throttling.AnonRateThrottle',
+    #     # 'rest_framework.throttling.UserRateThrottle',
+    #     'rest_framework.throttling.ScopedRateThrottle',
     # ],
     # 'DEFAULT_THROTTLE_RATES': {
     #     'anon': '3/day',
     #     'user': '5/day'
-    # }
+    # },
     'DEFAULT_THROTTLE_RATES': {
         'anon': '3/minute',
         'user': '5/minute',
         'throttling_for_review_details': '5/minute',
         'throttling_for_review_list': '1/day',
+        'review_list_scope': '3/day',
     }
 }
 
