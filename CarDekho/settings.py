@@ -135,7 +135,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # }
 
 
-# Session Authentication
+# Authentication
 
 REST_FRAMEWORK = {
     # Session Authentication
@@ -152,3 +152,4 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':
     ['rest_framework_simplejwt.authentication.JWTAuthentication',],
 }
+
