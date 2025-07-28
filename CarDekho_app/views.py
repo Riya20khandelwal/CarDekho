@@ -29,6 +29,11 @@ from rest_framework.exceptions import ValidationError
 # Custom permission
 from .api_file.permissions import AdminOrReadOnlyPermission, ReviewUserorReadonlypermission
 
+# Throttling
+
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
+
+
 # Create your views here.
 # def car_list_view(request):
 #     cars = Carlist.objects.all()
@@ -188,10 +193,13 @@ class ReviewCreate(generics.CreateAPIView):
 class ReviewList(generics.ListAPIView):
     # queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-    # authentication_classes = [TokenAuthentication]
-    authentication_classes = [JWTAuthentication]
+    authentication_classes = [TokenAuthentication]
+    # authentication_classes = [JWTAuthentication]
     # permission_classes = [AdminOrReadOnlyPermission]
-    permission_classes = [IsAuthenticated,]
+    # permission_classes = [IsAuthenticated,]
+
+    throttle_classes = [UserRateThrottle, AnonRateThrottle]
+
     def get_queryset(self):
         pk=self.kwargs['pk']
         return Review.objects.filter(car=pk)
@@ -200,6 +208,9 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     authentication_classes = [TokenAuthentication]
+
+    throttle_classes = [UserRateThrottle, AnonRateThrottle]
+    
     permission_classes = [ReviewUserorReadonlypermission]
 
 
