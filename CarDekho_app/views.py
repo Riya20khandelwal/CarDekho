@@ -32,6 +32,7 @@ from .api_file.permissions import AdminOrReadOnlyPermission, ReviewUserorReadonl
 # Throttling
 
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
+from .api_file.throttling import ReviewDetailThrottle, Reviewlistthrottle
 
 
 # Create your views here.
@@ -198,7 +199,8 @@ class ReviewList(generics.ListAPIView):
     # permission_classes = [AdminOrReadOnlyPermission]
     # permission_classes = [IsAuthenticated,]
 
-    throttle_classes = [UserRateThrottle, AnonRateThrottle]
+    # throttle_classes = [UserRateThrottle, AnonRateThrottle]
+    throttle_classes = [Reviewlistthrottle, AnonRateThrottle]
 
     def get_queryset(self):
         pk=self.kwargs['pk']
@@ -209,8 +211,9 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ReviewSerializer
     authentication_classes = [TokenAuthentication]
 
-    throttle_classes = [UserRateThrottle, AnonRateThrottle]
-    
+    # throttle_classes = [UserRateThrottle, AnonRateThrottle]
+    throttle_classes = [ReviewDetailThrottle, AnonRateThrottle]
+
     permission_classes = [ReviewUserorReadonlypermission]
 
 

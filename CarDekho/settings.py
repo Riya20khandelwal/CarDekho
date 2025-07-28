@@ -164,6 +164,8 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_RATES': {
         'anon': '3/minute',
         'user': '5/minute',
+        'throttling_for_review_details': '5/minute',
+        'throttling_for_review_list': '1/day',
     }
 }
 
