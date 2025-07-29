@@ -166,8 +166,11 @@ REST_FRAMEWORK = {
         'anon': '3/minute',
         'user': '5/minute',
         'throttling_for_review_details': '5/minute',
-        'throttling_for_review_list': '1/day',
-        'review_list_scope': '3/day',
-    }
+        'throttling_for_review_list': '20/day',
+        'review_list_scope': '30/day',
+    },
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE':1,
+
 }
 
