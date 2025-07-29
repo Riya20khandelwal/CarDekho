@@ -1,4 +1,4 @@
-from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
+from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination, CursorPagination
 
 class Reviewlistpagination(PageNumberPagination):
     page_size = 1
@@ -12,3 +12,8 @@ class Reviewlistlimitoffpag(LimitOffsetPagination):
     max_limit = 3
     offset_query_param = 'start'
     limit_query_param = 'limitsss'
+
+class Reviewlistcursorpag(CursorPagination):
+    page_size = 3
+    ordering = 'created'
+    # ordering = '-rating'

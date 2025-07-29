@@ -35,7 +35,7 @@ from rest_framework.throttling import UserRateThrottle, AnonRateThrottle, Scoped
 from .api_file.throttling import ReviewDetailThrottle, Reviewlistthrottle
 
 # Pagination
-from CarDekho_app.api_file.pagination import Reviewlistpagination, Reviewlistlimitoffpag
+from CarDekho_app.api_file.pagination import Reviewlistpagination, Reviewlistlimitoffpag, Reviewlistcursorpag
 
 
 # Create your views here.
@@ -208,7 +208,8 @@ class ReviewList(generics.ListAPIView):
     throttle_scope = 'review_list_scope'
 
     # pagination_class = Reviewlistpagination
-    pagination_class = Reviewlistlimitoffpag
+    # pagination_class = Reviewlistlimitoffpag
+    pagination_class = Reviewlistcursorpag
 
     def get_queryset(self):
         pk=self.kwargs['pk']
